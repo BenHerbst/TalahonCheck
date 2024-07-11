@@ -2,6 +2,7 @@ import Head from 'next/head';
 /** @jsxImportSource @emotion/react */
 import {css} from "@emotion/react";
 import 'survey-core/defaultV2.min.css';
+import "survey-core/i18n/german";
 import {Model, SurveyModel} from "survey-core";
 import {Survey} from "survey-react-ui";
 import {useCallback, useState} from "react";
@@ -67,6 +68,8 @@ export default function Home() {
     const maxScore = 5;
     const [score, setScore] = useState(0)
 
+    survey.locale = "de";
+
     const surveyComplete = useCallback((survey: SurveyModel) => {
         setFinished(true)
         const {auslaendar, fahrzeug, frau, cap, sachen} = survey.data;
@@ -96,6 +99,15 @@ export default function Home() {
 
     return (
         <div>
+            <Head>
+                <title>Talahon-Check - Check ob du ein Talahon bist!</title>
+                <meta name="description"
+                      content="Mit Talahon-Check kann jeder checken ob er oder sie ein Talahon ist. Seite bitte mit 100% ironie verstehen."/>
+                <meta property="og:title" content="Talahon-Check - Check ob du ein Talahon bist!" key="title"/>
+                <meta property="og:description"
+                      content="Mit Talahon-Check kann jeder checken ob er oder sie ein Talahon ist. Seite bitte mit 100% ironie verstehen."/>
+                <meta name="theme-color" content="#000"/>
+            </Head>
             <header css={css`
                 background-color: #000;
                 padding: 1.5rem;
