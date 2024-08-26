@@ -14,12 +14,12 @@ const surveyJson = {
             title: "Was ist dein Name?",
             type: "text"
         },
-            {
-                name: "auslaendar",
-                title: "Bist du ausländer?",
-                type: "boolean",
-                isRequired: true
-            }]
+        {
+            name: "auslaendar",
+            title: "Bist du ausländer?",
+            type: "boolean",
+            isRequired: true
+        }]
     }, {
         elements: [{
             name: "cap",
@@ -46,6 +46,14 @@ const surveyJson = {
         }],
     }, {
         elements: [{
+            name: "wort",
+            title: "Welches Wort benutzt du eher?",
+            type: "radiogroup",
+            choices: ['Alter', 'Boss', 'Abi'],
+            isRequired: true
+        }],
+    }, {
+        elements: [{
             name: "sachen",
             title: "Wo tust du deine Sachen rein?",
             type: "text",
@@ -56,7 +64,7 @@ const surveyJson = {
             name: "skala",
             title: "Auf einer Skala von 1-10, wie Talahonisch war dieses Quiz?",
             type: "rating",
-            rateMin: 5,
+            rateMin: 1,
             rateMax: 10
         }]
     }]
@@ -72,13 +80,14 @@ export default function Home() {
 
     const surveyComplete = useCallback((survey: SurveyModel) => {
         setFinished(true)
-        const {auslaendar, fahrzeug, frau, cap, sachen} = survey.data;
+        const {auslaendar, fahrzeug, frau, cap, wort, sachen} = survey.data;
         let score = 0;
 
         if(auslaendar === true) score++;
         if(fahrzeug === 'E-Roller') score++;
         if(frau === 'Chaya') score++;
         if(cap === 'Gucci') score++;
+        if(wort === 'Boss') score++;
         if(sachen.toLowerCase() === 'bauchtasche') score++;
 
         setScore(score / maxScore * 100);
@@ -99,61 +108,61 @@ export default function Home() {
 
     return (
         <div>
-            <Head>
-                <title>Talahon-Check - Check ob du ein Talahon bist!</title>
-                <meta name="description"
-                      content="Mit Talahon-Check kann jeder checken ob er oder sie ein Talahon ist. Seite bitte mit 100% ironie verstehen."/>
-                <meta property="og:title" content="Talahon-Check - Check ob du ein Talahon bist!" key="title"/>
-                <meta property="og:description"
-                      content="Mit Talahon-Check kann jeder checken ob er oder sie ein Talahon ist. Seite bitte mit 100% ironie verstehen."/>
-                <meta name="theme-color" content="#000"/>
-            </Head>
-            <header css={css`
-                background-color: #000;
-                padding: 1.5rem;
+        <Head>
+        <title>Talahon-Check - Check ob du ein Talahon bist!</title>
+        <meta name="description"
+        content="Mit Talahon-Check kann jeder checken ob er oder sie ein Talahon ist. Seite bitte mit 100% ironie verstehen."/>
+        <meta property="og:title" content="Talahon-Check - Check ob du ein Talahon bist!" key="title"/>
+        <meta property="og:description"
+        content="Mit Talahon-Check kann jeder checken ob er oder sie ein Talahon ist. Seite bitte mit 100% ironie verstehen."/>
+        <meta name="theme-color" content="#000"/>
+        </Head>
+        <header css={css`
+            background-color: #000;
+            padding: 1.5rem;
             `}>
-                <p css={css`
-                    font-size: 2rem;
-                    text-align: center;
-                    margin: 0;
-                    color: #FFF;
-                `}>
-                    <strong>
-                        TALAHON-CHECK
-                    </strong>
-                </p>
-            </header>
-            {!finished && <Survey model={survey}/>}
-            {finished && <section css={css`
-                text-align: center;
-                max-width: 640px;
-                margin: auto;
-                padding: 24px;
-            `} id='ergebnis'>
-                <div css={css`
-                    background-color: #FFF;
-                    padding: 4rem 2rem;
-                    border-radius: 1rem;
-                `}>
-                    <span>Du bist zu</span>
-                    <h2>{score}%</h2>
-                    <span>ein Talahon!</span>
-                    <div css={css`
-                        padding-top: 4rem;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 1rem;
-                    `}>
-                        <button onClick={repeat}>Nochmal</button>
-                        <button onClick={share}>Teilen</button>
-                    </div>
-                </div>
-            </section>}
             <p css={css`
-                max-width: 640px;
-                margin: auto;
-                padding: 0 24px;
-            `}>Made by <a href="https://www.benherbst.net/">Ben Herbst</a>.</p>
-        </div>
+                font-size: 2rem;
+                text-align: center;
+                margin: 0;
+                color: #FFF;
+                `}>
+                <strong>
+                TALAHON-CHECK
+                </strong>
+                </p>
+                </header>
+                {!finished && <Survey model={survey}/>}
+                {finished && <section css={css`
+                    text-align: center;
+                    max-width: 640px;
+                    margin: auto;
+                    padding: 24px;
+                    `} id='ergebnis'>
+                    <div css={css`
+                        background-color: #FFF;
+                        padding: 4rem 2rem;
+                        border-radius: 1rem;
+                        `}>
+                        <span>Du bist zu</span>
+                        <h2>{score}%</h2>
+                        <span>ein Talahon!</span>
+                        <div css={css`
+                            padding-top: 4rem;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 1rem;
+                            `}>
+                            <button onClick={repeat}>Nochmal</button>
+                            <button onClick={share}>Teilen</button>
+                            </div>
+                            </div>
+                            </section>}
+                            <p css={css`
+                                max-width: 640px;
+                                margin: auto;
+                                padding: 0 24px;
+                                `}>Made by <a href="https://www.benherbst.net/">Ben Herbst</a>.</p>
+                                </div>
     );
 }
